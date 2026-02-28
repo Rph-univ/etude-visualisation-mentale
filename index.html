@@ -42,7 +42,7 @@
         // --- CONFIGURATION ---
         const totalPassesMax = 40; 
         const quotaJoueur = 13; 
-        const googleDocUrl = "TON_LIEN_GOOGLE_DOC_ICI"; 
+        const googleDocUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdkp54Fpu5RE0ek-p8f8axwfQo1tBKyh6Kf_XaxXO4VndOYrw/viewform?usp=dialog"; 
         // ---------------------
 
         const jsPsych = initJsPsych({
@@ -54,6 +54,9 @@
                         <br><br>
                         <a href="${googleDocUrl}" class="jspsych-btn">Retourner au questionnaire</a>
                     </div>`;
+                
+                // Optionnel : redirection automatique après 2 secondes
+                setTimeout(() => { window.location.href = googleDocUrl; }, 2000);
             }
         });
 
@@ -153,7 +156,6 @@
                     if (target === 'vous') {
                         mesPassesRecues++;
                         instr.innerHTML = "À vous de jouer.";
-                        // On attend la fin de l'animation de la balle avant de permettre le clic
                         setTimeout(() => {
                             julieDiv.classList.add('cliquable');
                             marcDiv.classList.add('cliquable');
@@ -162,29 +164,13 @@
                         }, 1300); 
                     } else {
                         instr.innerHTML = "";
-                        
-                        // TEMPS DE RÉFLEXION ALLONGÉ ET VARIABLE (entre 2.5s et 5.5s)
                         const delaiVariable = Math.floor(Math.random() * 3000) + 2500;
 
                         setTimeout(() => {
                             let next;
                             let passesRestantesTotal = totalPassesMax - passesCompteur;
                             let quotaRestantJoueur = quotaJoueur - mesPassesRecues;
-                            let probabilitePourMoi = quotaRestantJoueur / passesRestantesTotal;
-
-                            if (Math.random() < probabilitePourMoi && quotaRestantJoueur > 0) {
-                                next = 'vous';
-                            } else {
-                                next = (target === 'julie') ? 'marc' : 'julie';
-                            }
-                            move(next);
-                        }, delaiVariable);
-                    }
-                }
-                // Premier lancer après la connexion
-                setTimeout(() => move('julie'), 1500);
-            }
-        };
+                            let
 
         jsPsych.run([welcome, connection, game_trial]);
     </script>
